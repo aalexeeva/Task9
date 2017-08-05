@@ -1,22 +1,22 @@
-﻿using System;
+﻿using static System.Console;
 
 namespace Task9
 {
     public class Point // однонаправленный список
     {
-        public string data;
-        public Point next;
-        public Point(string d)
+        public int Data;
+        public Point Next;
+        public Point(int d)
         {
-            data = d;
-            next = null;
+            Data = d;
+            Next = null;
         }
         public override string ToString()
         {
-            return data + " ";
+            return Data + " ";
         }
 
-        public static Point MakePoint(string d) // добавление элемента в список
+        public static Point MakePoint(int d) // добавление элемента в список
         {
             Point p = new Point(d);
             return p;
@@ -25,16 +25,14 @@ namespace Task9
         public static Point MakeList(int size) // создание элементов списка
         {
             if (size == 0) return null;
-            Console.WriteLine("Введите элемент");
-            string info = Console.ReadLine();
+            var info = 1;
             Point beg = MakePoint(info);
             Point r = beg;
-            for (int i = 1; i < size; i++)
+            for (var i = 1; i < size; i++)
             {
-                Console.WriteLine("Введите элемент");
-                info = Console.ReadLine();
+                info++;
                 Point p = MakePoint(info);
-                r.next = p;
+                r.Next = p;
                 r = p;
             }
             return beg;
@@ -44,27 +42,59 @@ namespace Task9
         {
             if (beg == null)
             {
-                Console.WriteLine("Cписок пуст");
+                WriteLine("Cписок пуст");
                 return;
             }
             Point p = beg;
-            Console.Write("Элементы списка: ");
+            Write("Элементы списка: ");
             while (p != null)
             {
-                Console.Write(p);
-                p = p.next;
+                Write(p);
+                p = p.Next;
             }
-            Console.WriteLine();
+            WriteLine();
         } // конец ShowList
 
-        public static void DeleteElement()
+        public static Point DeleteElement(int elem, Point beg)
         {
-            
+            if (beg == null)
+            {
+                WriteLine("Cписок пуст");
+                return null;
+            }
+            if (elem == 1)//удаляем первый элемент
+            {
+                beg = beg.Next;
+                return beg;
+            }
+            Point p = beg;
+            //ищем элемент для удаления и встаем на предыдущий
+            for (int i = 1; i < elem - 1 && p != null; i++)
+                p = p.Next;
+            if (p == null) // если элемент не найден
+            {
+                WriteLine("Элемент не найден");
+                return beg;
+            }
+            //исключаем элемент из списка
+            p.Next = p.Next.Next;
+            return beg;
         }
 
-        public static void SearchElement()
+        public static void SearchElement(int elem, Point beg)
         {
-            
+            if (beg == null)
+            {
+                WriteLine("Cписок пуст");
+                return;
+            }
+            Point p = beg;
+            if (p.Data != elem)
+            {
+                p = p.Next;
+                if (p == null) WriteLine("Элемент не найден");
+            }
+            else WriteLine("Искомый элемент: " + p.Data);
         }
     } // конец Point
 }
