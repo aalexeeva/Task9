@@ -1,24 +1,23 @@
 ﻿using System;
-using System.Net.NetworkInformation;
 using static System.Console;
 
 namespace Task9
 {
     class Program
     {
-        public static int Input(string Text, int minSize, int maxSize) // проверка соответствия ввода типу int
+        public static int Input(string text, int minSize, int maxSize) // проверка соответствия ввода типу int
         {
-            int number = 0;
+            var number = 0; 
             bool ok;
-            string word = " ";
-            string[] size = new string[2];
+            var word = " ";
+            var size = new string[2];
             size[0] = "большое";
             size[1] = "маленькое";
             do
             {
                 try
                 {
-                    WriteLine(Text);
+                    WriteLine(text);
                     number = Convert.ToInt32(ReadLine());
                     if (number >= minSize && number <= maxSize) ok = true;
                     else
@@ -43,25 +42,48 @@ namespace Task9
             return number;
         } // конец InputNumber
 
+        public static bool Exit() // выход из программы
+        {
+            WriteLine("Желаете начать сначала или нет? \nВведите да или нет");
+            var word = Convert.ToString(ReadLine()); // ответ пользователя
+            Clear();
+            if (word == "да" || word == "Да" || word == "ДА")
+            {
+                Clear();
+                return false;
+            }
+            Clear();
+            WriteLine("Вы ввели 'нет' или что-то непонятное. Нажмите любую клавишу, чтобы выйти из программы.");
+            ReadKey();
+            return true;
+        }
+
         static void Main(string[] args)
         {
-            var n = Input("Введите количество элементов списка:", 0, 2147483647);
-            Point beg = Point.MakeList(n);
-            var userAnswer = Input("Выберите, что сделать со списком: \n1.Вывести список\n2.Удалить элемент\n3.Найти элемент", 0, 4);
-            switch (userAnswer)
+            bool okay;
+            do
             {
-                case 1: Point.ShowPoint(beg);
-                    break;
-                case 2:
-                    var number = Input("Введите элемент, который необходимо удалить:", 0, 2147483647);
-                    Point.DeleteElement(number, beg);
-                    break;
-                case 3:
-                    var number2 = Input("Введите элемент, который необходимо найти:", 0, 2147483647);
-                    Point.SearchElement(number2, beg);
-                    break;
-            }
-            Read();
+                var n = Input("Введите количество элементов списка:", 0, 2147483647);
+                Point beg = Point.MakeList(n);
+                var userAnswer =
+                    Input("Выберите, что сделать со списком: \n1.Вывести список\n2.Удалить элемент\n3.Найти элемент", 0,
+                        4);
+                switch (userAnswer)
+                {
+                    case 1:
+                        Point.ShowPoint(beg);
+                        break;
+                    case 2:
+                        var number = Input("Введите элемент, который необходимо удалить:", 0, 2147483647);
+                        Point.DeleteElement(number, beg);
+                        break;
+                    case 3:
+                        var number2 = Input("Введите элемент, который необходимо найти:", 0, 2147483647);
+                        Point.SearchElement(number2, beg);
+                        break;
+                }
+                okay = Exit();
+            } while (!okay);
         }
     }
 }
