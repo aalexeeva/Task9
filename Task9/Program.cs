@@ -59,6 +59,7 @@ namespace Task9
                     case 2: // удаление элемента
                         var number = Input("Введите значение элемента, который необходимо удалить:", 0, n);
                         beg = Point.DeleteElement(number, beg);
+                        n--;
                         Write("Полученный список: " + Point.GetElementsString(beg) + "\n");
                         break;
                     case 3: // поиск элемента
@@ -70,7 +71,6 @@ namespace Task9
                             WriteLine("Порядковый номер элемента: " + result);
                         break;
                     case 4:
-                        okay = true;
                         Clear();
                         n = Input("Введите количество элементов списка:", 0, 10000);
                         beg = Point.MakeList(n);
