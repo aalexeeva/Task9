@@ -42,50 +42,38 @@ namespace Task9
             return number;
         } // конец InputNumber
 
-        public static bool Exit() // выход из программы
-        {
-            WriteLine("Желаете начать сначала или нет? \nВведите да или нет");
-            var word = Convert.ToString(ReadLine()); // ответ пользователя
-            Clear();
-            if (word == "да" || word == "Да" || word == "ДА")
-            {
-                Clear();
-                return false;
-            }
-            Clear();
-            WriteLine("Вы ввели 'нет' или что-то непонятное. Нажмите любую клавишу, чтобы выйти из программы.");
-            ReadKey();
-            return true;
-        }
-
         static void Main(string[] args)
         {
-            bool okay;
+            bool okay=false;
+            var n = Input("Введите количество элементов списка:", 0, 10000);
+                Point beg = Point.MakeList(n); // создание списка
             do
             {
-                var n = Input("Введите количество элементов списка:", 0, 2147483647);
-                Point beg = Point.MakeList(n); // создание списка
                 // вывод меню
-                var userAnswer =
-                    Input("Выберите, что сделать со списком: \n1.Вывести список\n2.Удалить элемент\n3.Найти элемент\n4.Выход", 0, 5);
+                var userAnswer = Input("Выберите, что сделать со списком: \n1.Вывести список\n2.Удалить элемент\n3.Найти элемент\n4.Начать заново\n5.Выход", 0, 5);
                 switch (userAnswer)
                 {
                     case 1: // вывод списка
                         Point.ShowPoint(beg);
                         break;
                     case 2: // удаление элемента
-                        var number = Input("Введите элемент, который необходимо удалить:", 0, 2147483647);
+                        var number = Input("Введите значение элемента, который необходимо удалить:", 0, n);
                         Point.DeleteElement(number, beg);
                         break;
                     case 3: // поиск элемента
-                        var number2 = Input("Введите элемент, который необходимо найти:", 0, 2147483647);
+                        var number2 = Input("Введите значение элемента, который необходимо найти:", 0, n);
                         Point.SearchElement(number2, beg);
                         break;
-                    case 4: // выход
+                    case 4:
+                        okay = true;
+                        Clear();
+                        n = Input("Введите количество элементов списка:", 0, 10000);
+                        beg = Point.MakeList(n);
+                        break;
+                    case 5: // выход
                         Environment.Exit(0);
                         break;
                 }
-                okay = Exit(); // выход из программы
             } while (!okay);
         }
     }
