@@ -19,12 +19,12 @@ namespace Task9
                 {
                     WriteLine(text); // вывод сообщения
                     number = Convert.ToInt32(ReadLine());
-                    if (number >= minSize && number <= maxSize) ok = true; // проверка вхождения числа в допустимый диапазон
+                    if (number >= 1 && number <= maxSize) ok = true; // проверка вхождения числа в допустимый диапазон
                     else
                     {
                         if (number >= maxSize) word = size[0];
-                        if (number <= minSize) word = size[1];
-                        WriteLine("Слишком {0} число. Число должно быть в диапазоне от {1} до {2}", word, minSize, maxSize);
+                        if (number < 1) word = size[1];
+                        WriteLine("Слишком {0} число. Число должно быть в диапазоне от {1} до {2}", word, 1, maxSize);
                         ok = false;
                     }
                 }
@@ -44,9 +44,9 @@ namespace Task9
 
         static void Main(string[] args)
         {
-            bool okay=false;
+            bool okay = false;
             var n = Input("Введите количество элементов списка:", 0, 10000);
-                Point beg = Point.MakeList(n); // создание списка
+            Point beg = Point.MakeList(n); // создание списка
             do
             {
                 // вывод меню
@@ -58,11 +58,16 @@ namespace Task9
                         break;
                     case 2: // удаление элемента
                         var number = Input("Введите значение элемента, который необходимо удалить:", 0, n);
-                        Point.DeleteElement(number, beg);
+                        beg = Point.DeleteElement(number, beg);
+                        Write("Полученный список: " + Point.GetElementsString(beg) + "\n");
                         break;
                     case 3: // поиск элемента
                         var number2 = Input("Введите значение элемента, который необходимо найти:", 0, n);
-                        Point.SearchElement(number2, beg);
+                        var result = Point.SearchElement(number2, beg);
+                        if (result == -1)
+                            WriteLine("Элемент не найден");
+                        else
+                            WriteLine("Порядковый номер элемента: " + result);
                         break;
                     case 4:
                         okay = true;
@@ -74,6 +79,7 @@ namespace Task9
                         Environment.Exit(0);
                         break;
                 }
+                WriteLine("\n");
             } while (!okay);
         }
     }
